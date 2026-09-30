@@ -15,6 +15,7 @@ import CheckoutForm from './components/CheckoutForm'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { getUsuario } from './services/api'
+import BackgroundMusic from './components/BackgroundMusic';
 import './index.css'
 
 const stripePromise = loadStripe('pk_test_51R894YRsY0EF16lUosBbp992DrQLogjnxYjESTrDDN8yMJhTT7NsAUxqsaAXf9mEMaOjFI8MRjG1wHacKqYP5u400q3QAYWGQ');
@@ -220,6 +221,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#f4fbf7] flex flex-col w-full m-0 p-0 font-sans">
+      <BackgroundMusic />
       <div className="w-full flex-1 bg-[#f4fbf7] flex flex-col h-screen relative shadow-none border-0 overflow-hidden">
         
         <Header usuario={usuario} onLogout={handleLogout} tiempoRestante={usuario.pase_ilimitado ? 'Ilimitado ♾️' : tiempoRestanteStr} />
