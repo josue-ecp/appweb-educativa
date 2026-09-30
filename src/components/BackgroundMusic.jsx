@@ -14,7 +14,7 @@ export default function BackgroundMusic() {
 
     if (!audio) return;
 
-    audio.volume = 0.18;
+    audio.volume = 0.25;
     audio.muted = isMuted;
 
     const iniciarMusica = async () => {
