@@ -214,3 +214,41 @@ export const crearMundoCompletoAPI = async (datosMundo) => {
         return { success: false, message: 'Error de red' };
     }
 };
+
+// Confirmar pago de Stripe y activar pase ilimitado
+export const confirmarPagoStripe = async (paymentIntentId) => {
+    try {
+        const userId = getUserIdActual();
+
+        const response = await fetch(`${API_URL}/stripe/confirmar-pago`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                payment_intent_id: paymentIntentId,
+                user_id: userId
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.usuario) {
+            localStorage.setItem(
+                'appweb_usuario',
+                JSON.stringify(data.usuario)
+            );
+        }
+
+        return data;
+
+    } catch (error) {
+        console.error("Error al confirmar pago de Stripe:", error);
+
+        return {
+            success: false,
+            message: 'Error de conexión al confirmar el pago.'
+        };
+    }
+};

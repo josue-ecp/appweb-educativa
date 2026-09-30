@@ -4,7 +4,7 @@ import { Elements, useStripe, useElements, CardNumberElement, CardExpiryElement,
 import { Loader2, ShieldCheck } from 'lucide-react';
 import CreditCardVisual from './CreditCardVisual';
 import { playSuccessSound, playWinSound, playErrorSound } from '../services/sound';
-import { sumarEstrellas } from '../services/api';
+import { sumarEstrellas, confirmarPagoStripe } from '../services/api';
 import confetti from 'canvas-confetti';
 
 // Inicializamos Stripe de manera segura con tu llave pública exacta
@@ -22,70 +22,149 @@ function FormularioInterior({ paquete, onClose, onUpdateUser }) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!stripe || !elements) return;
+  e.preventDefault();
 
-    setLoading(true);
-    playSuccessSound();
+  if (!stripe || !elements) return;
 
-    try {
-      // 1. Pide a tu backend de Laravel que cree un PaymentIntent
-      const usuarioGuardado = JSON.parse(localStorage.getItem('appweb_usuario') || '{}');
-      
-      const response = await fetch('http://localhost:8000/api/stripe/crear-payment-intent', {
+  setLoading(true);
+  playSuccessSound();
+
+  try {
+    const usuarioGuardado = JSON.parse(
+      localStorage.getItem('appweb_usuario') || '{}'
+    );
+
+    if (!usuarioGuardado.id) {
+      throw new Error('No se encontró el usuario actual.');
+    }
+
+    // URL correcta tanto para localhost como para producción
+    const API_URL = window.location.hostname === 'localhost'
+      ? 'http://localhost:8000/api'
+      : 'https://appweb-backend-production.up.railway.app/api';
+
+    // 1. Crear PaymentIntent en Laravel
+    const response = await fetch(
+      `${API_URL}/stripe/crear-payment-intent`,
+      {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
           cantidadEstrellas: paquete.cantidad,
           precio: paquete.precio,
-          user_id: usuarioGuardado.id || 1
+          user_id: usuarioGuardado.id
         })
-      });
+      }
+    );
 
-      const data = await response.json();
-      if (!data.clientSecret) throw new Error(data.error || 'No se pudo obtener el secreto de pago.');
+    const data = await response.json();
 
-      // 2. Confirma el pago de manera segura con Stripe Elements
-      const cardElement = elements.getElement(CardNumberElement);
-      const result = await stripe.confirmCardPayment(data.clientSecret, {
+    if (!response.ok || !data.clientSecret) {
+      throw new Error(
+        data.error || 'No se pudo obtener el secreto de pago.'
+      );
+    }
+
+    // 2. Confirmar pago con Stripe
+    const cardElement = elements.getElement(CardNumberElement);
+
+    const result = await stripe.confirmCardPayment(
+      data.clientSecret,
+      {
         payment_method: {
           card: cardElement,
-          billing_details: { name: nombre || 'Explorador' },
+          billing_details: {
+            name: nombre || 'Explorador'
+          }
         }
+      }
+    );
+
+    if (result.error) {
+      playErrorSound();
+      alert(result.error.message);
+      setLoading(false);
+      return;
+    }
+
+    // 3. Stripe confirmó el pago
+    if (
+      result.paymentIntent &&
+      result.paymentIntent.status === 'succeeded'
+    ) {
+
+      // 4. Confirmamos el pago también en nuestro backend
+      const confirmacion = await confirmarPagoStripe(
+        result.paymentIntent.id
+      );
+
+      if (!confirmacion.success) {
+        throw new Error(
+          confirmacion.message ||
+          'El pago fue realizado, pero no se pudo activar el pase.'
+        );
+      }
+
+      // 5. Sumar estrellas
+      await sumarEstrellas(paquete.cantidad);
+
+      // 6. Obtenemos el usuario actualizado
+      const usuarioActual = JSON.parse(
+        localStorage.getItem('appweb_usuario') || '{}'
+      );
+
+      const usuarioConPase = {
+        ...usuarioActual,
+        ...(confirmacion.usuario || {}),
+        pase_ilimitado: true
+      };
+
+      // 7. Guardamos el usuario actualizado
+      localStorage.setItem(
+        'appweb_usuario',
+        JSON.stringify(usuarioConPase)
+      );
+
+      // 8. Actualizamos el estado de React
+      if (onUpdateUser) {
+        await onUpdateUser();
+      }
+
+      playWinSound();
+
+      confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.5 }
       });
 
-      if (result.error) {
-        playErrorSound();
-        alert(result.error.message);
-        setLoading(false);
-      } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-        // 3. Pago exitoso: sumamos estrellas, activamos pase ilimitado permanente y actualizamos
-        await sumarEstrellas(paquete.cantidad);
+      alert(
+        `¡Pago exitoso! Se han agregado ${paquete.cantidad} estrellas y tu pase ilimitado ha sido activado 🌟✨`
+      );
 
-        // Guardamos en el almacenamiento local que este usuario ya adquirió el pase supremo
-        const usuarioActual = JSON.parse(localStorage.getItem('appweb_usuario') || '{}');
-        const usuarioConPase = { ...usuarioActual, pase_ilimitado: true };
-        localStorage.setItem('appweb_usuario', JSON.stringify(usuarioConPase));
-
-        if (onUpdateUser) onUpdateUser();
-        
-        playWinSound();
-        confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
-        alert(`¡Pago exitoso! Se han agregado ${paquete.cantidad} estrellas y tu pase ilimitado ha sido activado 🌟✨`);
-        
-        setLoading(false);
-        if (onClose) onClose();
-      }
-    } catch (err) {
-      console.error(err);
-      playErrorSound();
-      alert('Hubo un error al procesar el pago.');
       setLoading(false);
+
+      if (onClose) {
+        onClose();
+      }
     }
-  };
+
+  } catch (err) {
+    console.error(err);
+
+    playErrorSound();
+
+    alert(
+      err.message ||
+      'Hubo un error al procesar el pago.'
+    );
+
+    setLoading(false);
+  }
+};
 
   return (
     <div className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn">

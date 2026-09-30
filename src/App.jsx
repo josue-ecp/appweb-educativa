@@ -136,15 +136,24 @@ function App() {
   }
 
   const handleRefreshUser = async () => {
-    if (!isAdmin) {
-      const data = await getUsuario()
-      if (data) {
-        const usuarioCombinado = { ...data, pase_ilimitado: usuario.pase_ilimitado || data.pase_ilimitado };
-        setUsuario(usuarioCombinado)
-        localStorage.setItem('appweb_usuario', JSON.stringify(usuarioCombinado));
-      }
+  if (!isAdmin) {
+    const data = await getUsuario();
+
+    if (data) {
+      const usuarioCombinado = {
+        ...data,
+        pase_ilimitado: Boolean(data.pase_ilimitado)
+      };
+
+      setUsuario(usuarioCombinado);
+
+      localStorage.setItem(
+        'appweb_usuario',
+        JSON.stringify(usuarioCombinado)
+      );
     }
   }
+};
 
   const comprarPlanStripe = (paquete) => {
     setPaqueteSeleccionadoStripe(paquete);
