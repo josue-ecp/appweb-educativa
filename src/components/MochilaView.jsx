@@ -112,185 +112,361 @@ export default function MochilaView({ stars, onUpdateUser }) {
 
   const unlockedCount = accesorios.filter(a => a.unlocked).length;
 
-  return (
-    <div className="p-3 sm:p-6 md:p-8 space-y-5 md:space-y-6 max-w-4xl mx-auto w-full animate-fadeIn transition-all duration-500 pb-12">
-      
-      {/* Cabecera Principal Estilizada Bosque Mágico */}
-      <div className="bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 rounded-[2rem] md:rounded-[2.5rem] p-5 sm:p-7 md:p-8 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-5 border-2 border-white/25">
-        <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+    return (
+    <div className="w-full max-w-6xl mx-auto px-3 py-4 sm:px-5 sm:py-6 lg:px-8 space-y-5 sm:space-y-6 pb-10">
 
-        <div className="relative z-10 space-y-2 text-center md:text-left">
-          <div className="inline-flex items-center gap-1.5 bg-white/20 px-3.5 py-1 rounded-full text-[11px] md:text-xs font-black tracking-wider uppercase backdrop-blur-md border border-white/25 shadow-sm">
-            <Package className="w-3.5 h-3.5 text-emerald-200" /> Centro de Premios
+      {/* =====================================================
+          ENCABEZADO
+      ====================================================== */}
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-700 via-teal-700 to-cyan-800 p-5 sm:p-7 lg:p-8 text-white shadow-lg">
+
+        {/* Decoración */}
+        <div className="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-white/5 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-emerald-300/10 blur-3xl" />
+
+        <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+
+          {/* Información */}
+          <div className="min-w-0">
+
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-50 backdrop-blur-sm sm:text-xs">
+              <Package className="h-3.5 w-3.5" />
+              Centro de Premios
+            </div>
+
+            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl lg:text-4xl">
+              Tu Mochila Mágica
+            </h2>
+
+            <p className="mt-2 max-w-xl text-xs leading-relaxed text-emerald-50/80 sm:text-sm">
+              Abre cofres sorpresa con tus estrellas y colecciona
+              accesorios especiales para tu explorador.
+            </p>
+
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight">Tu Mochila Mágica</h2>
-          <p className="text-emerald-100 text-xs sm:text-sm font-medium max-w-md leading-relaxed">
-            ¡Abre cofres sorpresa ocultos en el bosque con tus estrellas y colecciona todos los accesorios secretos!
-          </p>
-        </div>
 
-        {/* Pestañas de Navegación Móvil / PC */}
-        <div className="flex bg-black/20 backdrop-blur-xl p-1.5 rounded-2xl border border-white/20 shadow-inner gap-1 relative z-10 w-full md:w-auto justify-center">
-          <button
-            onClick={() => setActiveTab('cofre')}
-            className={`flex-1 md:flex-initial px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'cofre' 
-                ? 'bg-white text-emerald-900 shadow-md scale-[1.02]' 
-                : 'text-white/90 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <Gift className="w-4 h-4 text-emerald-600" /> Cofre Mágico
-          </button>
-          <button
-            onClick={() => setActiveTab('casillero')}
-            className={`flex-1 md:flex-initial px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'casillero' 
-                ? 'bg-white text-emerald-900 shadow-md scale-[1.02]' 
-                : 'text-white/90 hover:bg-white/10 hover:text-white'
-            }`}
-          >
-            <ShieldCheck className="w-4 h-4 text-emerald-600" /> Casillero <span className="bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.5 rounded-full font-black">{unlockedCount}/{accesorios.length}</span>
-          </button>
-        </div>
-      </div>
 
-      {/* CONTENIDO DE LA PESTAÑA 1: COFRE MÁGICO */}
-      {activeTab === 'cofre' && (
-        <div className="space-y-6 animate-fadeIn">
-          <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 border-3 border-emerald-100 shadow-xl flex flex-col items-center text-center relative overflow-hidden">
-            
-            {/* Badge Flotante de Estrellas */}
-            <div className="absolute top-4 right-4 sm:right-6 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200/80 px-4 py-2 rounded-2xl flex items-center gap-2 shadow-sm">
-              <div className="w-7 h-7 rounded-xl bg-amber-400 flex items-center justify-center shadow-inner">
-                <Star className="w-4 h-4 text-white fill-white" />
-              </div>
-              <div className="text-left">
-                <p className="text-[9px] font-black uppercase tracking-wider text-amber-800">Disponibles</p>
-                <p className="text-xs sm:text-sm font-black text-amber-900">{stars} Estrellas</p>
-              </div>
-            </div>
+          {/* Navegación */}
+          <div className="w-full lg:w-auto">
 
-            <div className="space-y-2 max-w-md mt-10 sm:mt-2">
-              <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider inline-flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5" /> Caja Sorpresa del Bosque
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-slate-800">¿Te atreves a abrir el Cofre Mágico?</h3>
-              <p className="text-xs sm:text-sm text-slate-500 font-medium px-2">
-                Cada intento cuesta <span className="font-black text-amber-600">30 Estrellas</span>. ¡Colecciona equipo legendario para tu explorador!
-              </p>
-            </div>
+            <div className="grid grid-cols-2 gap-1 rounded-2xl border border-white/10 bg-black/15 p-1.5 backdrop-blur-md">
 
-            {/* Animación del Cofre */}
-            <div 
-              className={`my-6 sm:my-8 text-7xl sm:text-8xl md:text-9xl transition-transform duration-300 select-none filter drop-shadow-lg ${
-                isOpening ? 'animate-bounce scale-110 rotate-6' : 'hover:scale-110 cursor-pointer active:scale-95'
-              }`} 
-              onClick={abrirCofre}
-              title="¡Toca para abrir!"
-            >
-              🎁
-            </div>
-
-            {/* Botón de Acción Principal */}
-            <button
-              onClick={abrirCofre}
-              disabled={loading || stars < 30 || premioObtenido !== null}
-              className="w-full max-w-md py-4 px-6 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-black rounded-2xl shadow-lg shadow-emerald-500/25 transition-all transform hover:scale-[1.02] active:scale-95 text-sm sm:text-base flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border-2 border-white/30"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" /> Abriendo cofre mágico...
-                </>
-              ) : stars < 30 ? (
-                <>⭐ ¡Necesitas 30 Estrellas para abrirlo!</>
-              ) : premioObtenido !== null ? (
-                <>🎁 ¡Reclama tu premio en la tarjeta de abajo!</>
-              ) : (
-                <>
-                  <Sparkles className="w-5 h-5 fill-white" /> Abrir Cofre Mágico (-30 Estrellas) ✨
-                </>
-              )}
-            </button>
-
-            {/* Tarjeta Interactiva de Premio Obtenido */}
-            {premioObtenido && !isOpening && (
-              <div 
-                onClick={guardarPremioEnCasillero}
-                className={`mt-6 bg-gradient-to-r from-amber-100 via-orange-100 to-yellow-100 border-3 border-amber-300 p-4 sm:p-5 rounded-3xl shadow-xl w-full max-w-md flex items-center gap-4 text-left cursor-pointer transform transition-all duration-500 hover:scale-[1.02] active:scale-95 ${
-                  animandoGuardado ? 'scale-0 opacity-0 translate-y-10' : 'animate-bounce'
+              <button
+                onClick={() => setActiveTab('cofre')}
+                className={`flex min-h-11 items-center justify-center gap-2 rounded-xl px-3 py-2 text-xs font-bold transition-all sm:px-5 sm:text-sm ${
+                  activeTab === 'cofre'
+                    ? 'bg-white text-emerald-900 shadow-md'
+                    : 'text-white/80 hover:bg-white/10 hover:text-white'
                 }`}
               >
-                <div className="text-4xl sm:text-5xl bg-white p-3 rounded-2xl shadow-md border border-amber-200 flex-shrink-0 flex items-center justify-center">
-                  {premioObtenido.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-amber-900 bg-amber-300/70 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 shadow-xs">
-                    <CheckCircle2 className="w-3 h-3" /> ¡Toca para guardar en tu Casillero!
-                  </span>
-                  <h4 className="font-black text-slate-900 text-base truncate mt-1">{premioObtenido.name}</h4>
-                  <p className="text-xs text-slate-700 font-medium">{premioObtenido.desc}</p>
-                </div>
-                <div className="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-black flex-shrink-0 shadow-md">
-                  <ChevronRight className="w-5 h-5" />
-                </div>
-              </div>
-            )}
+                <Gift className="h-4 w-4 shrink-0" />
+                <span>Cofre</span>
+              </button>
 
-          </div>
-        </div>
-      )}
-
-      {/* CONTENIDO DE LA PESTAÑA 2: MI CASILLERO */}
-      {activeTab === 'casillero' && (
-        <div className="space-y-4 animate-fadeIn">
-          <div className="flex justify-between items-center px-1">
-            <h3 className="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-emerald-600" /> Tus Accesorios Coleccionados
-            </h3>
-            <span className="text-xs font-black text-emerald-700 bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-2xl shadow-xs">
-              {unlockedCount} de {accesorios.length} Desbloqueados
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-            {accesorios.map((item, idx) => (
-              <div
-                key={item.id}
-                style={{ animationDelay: `${idx * 80}ms` }}
-                className={`rounded-[1.75rem] p-4 sm:p-5 border-2 transition-all duration-300 flex items-center gap-4 shadow-sm animate-fadeIn ${
-                  item.unlocked 
-                    ? 'bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/50 border-emerald-200/80 shadow-md hover:shadow-lg transform hover:-translate-y-1' 
-                    : 'bg-slate-100/70 border-slate-200 opacity-70'
+              <button
+                onClick={() => setActiveTab('casillero')}
+                className={`flex min-h-11 items-center justify-center gap-2 rounded-xl px-3 py-2 text-xs font-bold transition-all sm:px-5 sm:text-sm ${
+                  activeTab === 'casillero'
+                    ? 'bg-white text-emerald-900 shadow-md'
+                    : 'text-white/80 hover:bg-white/10 hover:text-white'
                 }`}
               >
-                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center flex-shrink-0 text-3xl shadow-xs transition-transform duration-300 hover:rotate-6 ${
-                  item.unlocked ? 'bg-white shadow-md border-2 border-emerald-100' : 'bg-slate-200 text-slate-400'
+                <ShieldCheck className="h-4 w-4 shrink-0" />
+                <span>Casillero</span>
+
+                <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${
+                  activeTab === 'casillero'
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-white/15 text-white'
                 }`}>
-                  {item.unlocked ? item.icon : <Lock className="w-6 h-6 text-slate-400" />}
+                  {unlockedCount}/{accesorios.length}
+                </span>
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* =====================================================
+          COFRE MÁGICO
+      ====================================================== */}
+      {activeTab === 'cofre' && (
+        <section className="animate-fadeIn">
+
+          <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md">
+
+            {/* Barra superior */}
+            <div className="flex flex-col gap-3 border-b border-slate-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+
+              <div className="flex items-center gap-2">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
+                  <Sparkles className="h-4 w-4 text-emerald-600" />
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-center mb-1">
-                    <h4 className="font-black text-slate-800 text-sm sm:text-base truncate">{item.name}</h4>
-                    {item.unlocked ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-black bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full shadow-xs">
-                        <ShieldCheck className="w-3 h-3" /> Casillero
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-black bg-slate-200 text-slate-600 px-2.5 py-0.5 rounded-full">
-                        <Lock className="w-3 h-3" /> Bloqueado
-                      </span>
-                    )}
-                  </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Cofre mágico
+                  </p>
 
-                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    {item.desc}
+                  <p className="text-sm font-bold text-slate-800">
+                    Caja Sorpresa del Bosque
                   </p>
                 </div>
               </div>
-            ))}
+
+
+              {/* Estrellas */}
+              <div className="flex w-full items-center justify-between gap-3 rounded-xl border border-amber-100 bg-amber-50 px-3 py-2 sm:w-auto sm:justify-start">
+
+                <div className="flex items-center gap-2">
+
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-400 shadow-sm">
+                    <Star className="h-4 w-4 fill-white text-white" />
+                  </div>
+
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-wider text-amber-700">
+                      Disponibles
+                    </p>
+
+                    <p className="text-sm font-extrabold text-amber-900">
+                      {stars} Estrellas
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* Contenido */}
+            <div className="flex flex-col items-center px-4 py-8 text-center sm:px-8 sm:py-10">
+
+              <div className="max-w-lg">
+
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700 sm:text-xs">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Caja sorpresa
+                </span>
+
+                <h3 className="mt-3 text-xl font-extrabold tracking-tight text-slate-800 sm:text-2xl">
+                  ¿Te atreves a abrir el Cofre Mágico?
+                </h3>
+
+                <p className="mt-2 text-xs leading-relaxed text-slate-500 sm:text-sm">
+                  Cada intento cuesta{' '}
+                  <span className="font-extrabold text-amber-600">
+                    30 Estrellas
+                  </span>
+                  . Descubre accesorios especiales para tu explorador.
+                </p>
+
+              </div>
+
+
+              {/* Cofre */}
+              <button
+                type="button"
+                onClick={abrirCofre}
+                disabled={loading || stars < 30 || premioObtenido !== null}
+                aria-label="Abrir cofre mágico"
+                className={`my-7 flex h-32 w-32 items-center justify-center rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50 text-7xl shadow-sm transition-all duration-300 sm:h-36 sm:w-36 sm:text-8xl ${
+                  isOpening
+                    ? 'scale-105 animate-pulse shadow-lg'
+                    : 'hover:-translate-y-1 hover:shadow-lg active:scale-95'
+                } ${
+                  loading || stars < 30 || premioObtenido !== null
+                    ? 'cursor-not-allowed opacity-70'
+                    : 'cursor-pointer'
+                }`}
+              >
+                🎁
+              </button>
+
+
+              {/* Botón */}
+              <button
+                onClick={abrirCofre}
+                disabled={loading || stars < 30 || premioObtenido !== null}
+                className="flex w-full max-w-md items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-3.5 text-sm font-extrabold text-white shadow-md shadow-emerald-600/15 transition-all hover:from-emerald-700 hover:to-teal-700 hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
+              >
+
+                {loading ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Abriendo cofre...
+                  </>
+                ) : stars < 30 ? (
+                  <>
+                    ⭐ Necesitas 30 Estrellas
+                  </>
+                ) : premioObtenido !== null ? (
+                  <>
+                    🎁 Reclama tu premio abajo
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-5 w-5" />
+                    Abrir Cofre
+                    <span className="text-emerald-100">
+                      • 30 ⭐
+                    </span>
+                  </>
+                )}
+
+              </button>
+
+
+              {/* Premio */}
+              {premioObtenido && !isOpening && (
+                <div
+                  onClick={guardarPremioEnCasillero}
+                  className={`mt-5 flex w-full max-w-md cursor-pointer items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:gap-4 sm:p-4 ${
+                    animandoGuardado
+                      ? 'translate-y-4 scale-95 opacity-0'
+                      : 'animate-fadeIn'
+                  }`}
+                >
+
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-amber-100 bg-white text-3xl shadow-sm sm:h-16 sm:w-16 sm:text-4xl">
+                    {premioObtenido.icon}
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-200 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-amber-900">
+                      <CheckCircle2 className="h-3 w-3" />
+                      Toca para guardar
+                    </span>
+
+                    <h4 className="mt-1 truncate text-sm font-extrabold text-slate-900 sm:text-base">
+                      {premioObtenido.name}
+                    </h4>
+
+                    <p className="mt-0.5 text-[11px] leading-relaxed text-slate-600 sm:text-xs">
+                      {premioObtenido.desc}
+                    </p>
+
+                  </div>
+
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500 text-white shadow-sm">
+                    <ChevronRight className="h-4 w-4" />
+                  </div>
+
+                </div>
+              )}
+
+            </div>
+
           </div>
-        </div>
+
+        </section>
+      )}
+
+
+      {/* =====================================================
+          CASILLERO
+      ====================================================== */}
+      {activeTab === 'casillero' && (
+        <section className="animate-fadeIn space-y-4">
+
+          {/* Encabezado */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+            <div className="flex items-center gap-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
+                <Sparkles className="h-4 w-4 text-emerald-600" />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-extrabold text-slate-800 sm:text-base">
+                  Tus accesorios
+                </h3>
+
+                <p className="text-[11px] text-slate-400">
+                  Colección del explorador
+                </p>
+              </div>
+            </div>
+
+            <span className="self-start rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-bold text-emerald-700 sm:self-auto">
+              {unlockedCount} de {accesorios.length} desbloqueados
+            </span>
+
+          </div>
+
+
+          {/* Tarjetas */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
+            {accesorios.map((item, idx) => (
+
+              <div
+                key={item.id}
+                style={{ animationDelay: `${idx * 80}ms` }}
+                className={`flex min-w-0 items-center gap-3 rounded-2xl border p-4 transition-all duration-300 ${
+                  item.unlocked
+                    ? 'border-emerald-100 bg-white shadow-sm hover:-translate-y-0.5 hover:shadow-md'
+                    : 'border-slate-200 bg-slate-50 opacity-70'
+                }`}
+              >
+
+                {/* Icono */}
+                <div
+                  className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-3xl ${
+                    item.unlocked
+                      ? 'border border-emerald-100 bg-emerald-50'
+                      : 'bg-slate-200'
+                  }`}
+                >
+                  {item.unlocked ? (
+                    item.icon
+                  ) : (
+                    <Lock className="h-5 w-5 text-slate-400" />
+                  )}
+                </div>
+
+
+                {/* Información */}
+                <div className="min-w-0 flex-1">
+
+                  <div className="flex items-start justify-between gap-2">
+
+                    <h4 className="min-w-0 truncate text-sm font-extrabold text-slate-800">
+                      {item.name}
+                    </h4>
+
+                    <span
+                      className={`shrink-0 rounded-full px-2 py-0.5 text-[8px] font-bold uppercase tracking-wide ${
+                        item.unlocked
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : 'bg-slate-200 text-slate-500'
+                      }`}
+                    >
+                      {item.unlocked ? 'Obtenido' : 'Bloqueado'}
+                    </span>
+
+                  </div>
+
+                  <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
+                    {item.desc}
+                  </p>
+
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </section>
       )}
 
     </div>

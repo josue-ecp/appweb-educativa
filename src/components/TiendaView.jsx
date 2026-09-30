@@ -87,191 +87,337 @@ export default function TiendaView({ stars, onUpdateUser }) {
   const unlockedTotal = itemsTienda.filter(i => i.unlocked).length;
 
   return (
-    <div className="p-3 sm:p-6 md:p-8 space-y-8 max-w-4xl mx-auto w-full animate-fadeIn pb-16">
-      
-      {/* Cabecera Mágica de la Tienda */}
-      <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 rounded-[2.5rem] p-6 md:p-8 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 border-3 border-white/30">
-        <div className="absolute -right-10 -top-10 w-36 h-36 bg-white/20 rounded-full blur-2xl pointer-events-none"></div>
-        <div className="absolute left-10 -bottom-10 w-28 h-28 bg-amber-400/20 rounded-full blur-2xl pointer-events-none"></div>
+    <div className="w-full max-w-6xl mx-auto px-3 py-4 sm:px-5 sm:py-6 lg:px-8 space-y-6 pb-10">
 
-        <div className="relative z-10 space-y-2 text-center md:text-left">
-          <div className="inline-flex items-center gap-1.5 bg-amber-300 text-amber-950 px-4 py-1.5 rounded-full text-xs font-black tracking-wider uppercase shadow-md transform -rotate-1">
-            <Sparkles className="w-4 h-4 text-amber-800 animate-spin" /> Mercado Secreto del Bosque
-          </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight drop-shadow-sm">Tienda de Explorador ⛺</h2>
-          <p className="text-emerald-100 text-xs sm:text-sm font-medium max-w-md leading-relaxed">
-            ¡Canjea tus estrellas por equipo mágico o adquiere paquetes de estrellas con tarjeta animada 3D!
-          </p>
-        </div>
+      {/* =====================================================
+          CABECERA
+      ====================================================== */}
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-700 via-teal-700 to-cyan-800 p-5 text-white shadow-lg sm:p-7 lg:p-8">
 
-        {/* Badge Flotante de Estrellas del Usuario */}
-        <div className="relative z-10 bg-white/20 backdrop-blur-md px-5 py-3 rounded-2xl border-2 border-white/30 shadow-inner flex items-center gap-3 transform hover:scale-105 transition-transform">
-          <div className="w-10 h-10 rounded-xl bg-amber-400 flex items-center justify-center shadow-md">
-            <Star className="w-6 h-6 text-white fill-white animate-pulse" />
-          </div>
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-wider text-emerald-100">Mis Estrellas</p>
-            <span className="font-black text-xl text-white">{stars} 🌟</span>
-          </div>
-        </div>
-      </div>
+        {/* Decoración */}
+        <div className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-white/5 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-emerald-300/10 blur-3xl" />
 
-      {/* SECCIÓN: ÁRBOL DE CRISTALES ESTELARES */}
-      <div className="bg-gradient-to-br from-teal-900 via-emerald-900 to-slate-900 rounded-[2.5rem] p-6 md:p-8 text-white shadow-xl relative overflow-hidden border-3 border-emerald-500/40">
-        <div className="absolute right-[-10px] bottom-[-10px] text-8xl opacity-10 pointer-events-none">
-          <Trees className="w-64 h-64 text-emerald-300" />
-        </div>
-        <div className="absolute -left-10 -top-10 w-32 h-32 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 
-        <div className="relative z-10 space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2 bg-emerald-500/30 px-4 py-1.5 rounded-full w-fit text-xs font-black uppercase tracking-wider backdrop-blur-md border border-emerald-400/40 text-emerald-200">
-              <Leaf className="w-4 h-4 text-emerald-300" /> Árbol de Cristales (Pago Seguro)
+          {/* Información */}
+          <div className="min-w-0">
+
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-50 backdrop-blur-sm sm:text-xs">
+              <Store className="h-3.5 w-3.5" />
+              Mercado del Bosque
             </div>
-            <span className="text-[11px] font-bold text-teal-200 bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">
-              💳 Tarjeta 3D interactiva en tiempo real
-            </span>
-          </div>
 
-          <div className="space-y-1">
-            <h3 className="text-xl md:text-2xl font-black">Selecciona tu Paquete de Estrellas</h3>
-            <p className="text-emerald-100 text-xs md:text-sm font-medium max-w-lg leading-relaxed">
-              Elige el suministro perfecto para desbloquear todos los accesorios y convertirte en el guardián supremo del bosque.
+            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl lg:text-4xl">
+              Tienda de Explorador
+            </h2>
+
+            <p className="mt-2 max-w-xl text-xs leading-relaxed text-emerald-50/80 sm:text-sm">
+              Canjea tus estrellas por accesorios especiales o adquiere
+              paquetes para continuar tus aventuras.
             </p>
+
           </div>
 
-          {/* Grid Organizado de 4 Paquetes */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
-            {paquetesEstrellas.map((paquete) => (
-              <div 
-                key={paquete.id}
-                className={`bg-emerald-950/60 backdrop-blur-md rounded-3xl p-5 border-2 transition-all duration-300 flex flex-col justify-between shadow-lg relative overflow-hidden group hover:-translate-y-1 ${
-                  paquete.popular ? 'border-amber-400 shadow-amber-500/10' : 'border-emerald-500/30 hover:border-emerald-400'
-                }`}
-              >
+
+          {/* Estrellas */}
+          <div className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/10 p-3.5 backdrop-blur-md sm:w-auto sm:min-w-[190px]">
+
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-400 shadow-sm">
+              <Star className="h-5 w-5 fill-white text-white" />
+            </div>
+
+            <div className="min-w-0">
+              <p className="text-[9px] font-bold uppercase tracking-wider text-white/60">
+                Mis estrellas
+              </p>
+
+              <p className="mt-0.5 text-xl font-extrabold tracking-tight text-white">
+                {stars}
+                <span className="ml-1 text-sm text-amber-200">🌟</span>
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* =====================================================
+          PAQUETES DE ESTRELLAS
+      ====================================================== */}
+      <section className="overflow-hidden rounded-3xl bg-slate-900 shadow-lg">
+
+        {/* Encabezado */}
+        <div className="border-b border-white/10 p-5 sm:p-6">
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+
+            <div className="min-w-0">
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-300 sm:text-xs">
+                <Gem className="h-3.5 w-3.5" />
+                Pago seguro
+              </div>
+
+              <h3 className="mt-3 text-xl font-extrabold tracking-tight text-white sm:text-2xl">
+                Paquetes de Estrellas
+              </h3>
+
+              <p className="mt-1.5 max-w-2xl text-xs leading-relaxed text-slate-400 sm:text-sm">
+                Elige la cantidad de estrellas que necesitas para desbloquear
+                accesorios y disfrutar de todas tus aventuras.
+              </p>
+
+            </div>
+
+            <div className="inline-flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-semibold text-slate-400">
+              💳 Pago con tarjeta
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* Paquetes */}
+        <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 sm:p-5 lg:grid-cols-4">
+
+          {paquetesEstrellas.map((paquete) => (
+
+            <div
+              key={paquete.id}
+              className={`group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border p-4 transition-all duration-300 ${
+                paquete.popular
+                  ? 'border-amber-400/60 bg-gradient-to-b from-emerald-800 to-emerald-950 shadow-md shadow-amber-500/5'
+                  : 'border-white/10 bg-white/[0.04] hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-white/[0.06]'
+              }`}
+            >
+
+              {/* Más vendido */}
+              {paquete.popular && (
+                <div className="absolute right-0 top-0 rounded-bl-xl bg-amber-400 px-2.5 py-1 text-[8px] font-extrabold uppercase tracking-wider text-amber-950">
+                  Más vendido
+                </div>
+              )}
+
+
+              {/* Icono */}
+              <div className="flex items-start justify-between gap-3">
+
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-xl shadow-sm transition-transform duration-300 group-hover:scale-105">
+                  {paquete.icono}
+                </div>
+
                 {paquete.popular && (
-                  <div className="absolute top-0 right-0 bg-amber-400 text-amber-950 text-[9px] font-black px-3 py-0.5 rounded-bl-xl uppercase tracking-wider shadow-sm">
-                    ⭐ ¡Más Vendido!
-                  </div>
+                  <span className="mt-5 text-xs text-amber-300">
+                    ⭐
+                  </span>
                 )}
 
-                <div className="space-y-3">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
-                    {paquete.icono}
-                  </div>
-                  <div>
-                    <h4 className="font-black text-base text-white">{paquete.titulo}</h4>
-                    <p className="text-xs text-emerald-200/80 font-medium mt-0.5">{paquete.desc}</p>
-                  </div>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-emerald-800/50 flex items-center justify-between gap-2">
-                  <div>
-                    <span className="text-[10px] text-amber-300 font-bold uppercase tracking-wider block leading-none">{paquete.cantidad} Estrellas</span>
-                    <span className="font-black text-base text-white">${paquete.precio.toFixed(2)}</span>
-                  </div>
-                  <button
-                    onClick={() => setPaqueteSeleccionado(paquete)}
-                    className="bg-amber-400 hover:bg-amber-300 text-amber-950 font-black px-3.5 py-2 rounded-xl shadow-md transition transform hover:scale-105 active:scale-95 text-xs flex items-center gap-1 cursor-pointer"
-                  >
-                    Adquirir 💳
-                  </button>
-                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
-      {/* MODAL DE CHECKOUT CON STRIPE ELEMENTS Y TARJETA 3D */}
+
+              {/* Información */}
+              <div className="mt-4 min-w-0">
+
+                <h4 className="truncate text-sm font-extrabold text-white">
+                  {paquete.titulo}
+                </h4>
+
+                <p className="mt-1 min-h-[32px] text-[11px] leading-relaxed text-slate-400">
+                  {paquete.desc}
+                </p>
+
+              </div>
+
+
+              {/* Precio */}
+              <div className="mt-4 flex items-end justify-between gap-2 border-t border-white/10 pt-4">
+
+                <div>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-amber-300">
+                    {paquete.cantidad} estrellas
+                  </p>
+
+                  <p className="mt-0.5 text-lg font-extrabold text-white">
+                    ${paquete.precio.toFixed(2)}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setPaqueteSeleccionado(paquete)}
+                  className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-amber-400 px-3 py-2 text-[10px] font-extrabold text-amber-950 shadow-sm transition-all hover:bg-amber-300 hover:shadow-md active:scale-95 sm:text-xs"
+                >
+                  Comprar
+                </button>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      </section>
+
+
+      {/* =====================================================
+          CHECKOUT STRIPE
+      ====================================================== */}
       {paqueteSeleccionado && (
         <Elements stripe={stripePromise}>
-          <CheckoutForm 
-            paquete={paqueteSeleccionado} 
-            onClose={() => setPaqueteSeleccionado(null)} 
-            onUpdateUser={onUpdateUser} 
+          <CheckoutForm
+            paquete={paqueteSeleccionado}
+            onClose={() => setPaqueteSeleccionado(null)}
+            onUpdateUser={onUpdateUser}
           />
         </Elements>
       )}
 
-      {/* Catálogo del Mercado del Bosque */}
-      <div className="space-y-4">
-        <div className="flex justify-between items-center px-2">
-          <h3 className="text-lg md:text-xl font-black text-slate-800 flex items-center gap-2">
-            <Gift className="w-6 h-6 text-emerald-600 animate-bounce" /> Tesoros Disponibles
-          </h3>
-          <span className="text-xs font-black text-emerald-800 bg-emerald-100 border border-emerald-200 px-4 py-1.5 rounded-2xl shadow-xs">
-            🎒 {unlockedTotal} de {itemsTienda.length} Coleccionados
+
+      {/* =====================================================
+          ACCESORIOS
+      ====================================================== */}
+      <section className="space-y-4">
+
+        {/* Encabezado */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+          <div className="flex items-center gap-2.5">
+
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
+              <Gift className="h-4 w-4 text-emerald-600" />
+            </div>
+
+            <div>
+              <h3 className="text-base font-extrabold text-slate-800 sm:text-lg">
+                Tesoros disponibles
+              </h3>
+
+              <p className="text-[11px] text-slate-400">
+                Accesorios para tu explorador
+              </p>
+            </div>
+
+          </div>
+
+          <span className="self-start rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-bold text-emerald-700 sm:self-auto">
+            {unlockedTotal} de {itemsTienda.length} coleccionados
           </span>
+
         </div>
 
-        {/* Grid de Artículos Estilo Tarjetas Mágicas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
           {itemsTienda.map((item, idx) => (
+
             <div
               key={item.id}
               style={{ animationDelay: `${idx * 80}ms` }}
-              className={`rounded-[2rem] p-5 md:p-6 border-3 transition-all duration-300 flex items-center gap-4 shadow-md hover:shadow-xl animate-fadeIn relative overflow-hidden group ${
-                item.unlocked 
-                  ? 'bg-gradient-to-br from-emerald-50/90 via-white to-teal-50/70 border-emerald-300' 
-                  : 'bg-white border-slate-200 hover:border-emerald-400 transform hover:-translate-y-1'
+              className={`group relative flex min-w-0 items-center gap-3 rounded-2xl border p-4 transition-all duration-300 ${
+                item.unlocked
+                  ? 'border-emerald-100 bg-emerald-50/60 shadow-sm'
+                  : 'border-slate-200 bg-white shadow-sm hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-md'
               }`}
             >
-              {/* Etiqueta flotante de rareza */}
-              <div className="absolute top-3 right-4">
-                <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs ${
-                  item.tag === 'Legendario' ? 'bg-amber-400 text-amber-950 animate-pulse' :
-                  item.tag === 'Épico' ? 'bg-purple-100 text-purple-800' :
-                  item.tag === 'Mágico' ? 'bg-cyan-100 text-cyan-800' : 'bg-emerald-100 text-emerald-800'
-                }`}>
-                  {item.tag}
-                </span>
-              </div>
 
-              {/* Icono del artículo */}
-              <div className={`w-18 h-18 md:w-20 md:h-20 rounded-2xl flex items-center justify-center text-4xl shadow-inner border-2 flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${
-                item.unlocked ? 'bg-emerald-100 border-emerald-300 text-emerald-900' : 'bg-slate-100 border-slate-200 text-slate-700'
-              }`}>
+              {/* Rareza */}
+              <span
+                className={`absolute right-3 top-3 rounded-full px-2 py-0.5 text-[8px] font-bold uppercase tracking-wide ${
+                  item.tag === 'Legendario'
+                    ? 'bg-amber-100 text-amber-800'
+                    : item.tag === 'Épico'
+                    ? 'bg-purple-100 text-purple-700'
+                    : item.tag === 'Mágico'
+                    ? 'bg-cyan-100 text-cyan-700'
+                    : item.tag === 'Especial'
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'bg-emerald-100 text-emerald-700'
+                }`}
+              >
+                {item.tag}
+              </span>
+
+
+              {/* Icono */}
+              <div
+                className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border text-3xl transition-transform duration-300 group-hover:scale-105 ${
+                  item.unlocked
+                    ? 'border-emerald-200 bg-white'
+                    : 'border-slate-200 bg-slate-50'
+                }`}
+              >
                 {item.icon}
               </div>
 
-              {/* Información y botones */}
-              <div className="flex-1 min-w-0 pr-2">
-                <h4 className="font-black text-slate-800 text-base md:text-lg truncate">{item.name}</h4>
-                <p className="text-xs text-slate-500 font-medium mb-3 leading-snug line-clamp-2">
+
+              {/* Información */}
+              <div className="min-w-0 flex-1 pt-1">
+
+                <h4 className="pr-14 text-sm font-extrabold text-slate-800 sm:text-base">
+                  {item.name}
+                </h4>
+
+                <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-500">
                   {item.desc}
                 </p>
 
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1 text-xs font-black bg-amber-100 text-amber-950 px-3 py-1 rounded-xl shadow-xs border border-amber-200">
-                    <Star className="w-3.5 h-3.5 text-amber-600 fill-amber-500" /> {item.cost} Estrellas
+
+                {/* Precio / Acción */}
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+
+                  <span className="inline-flex items-center gap-1 rounded-lg border border-amber-100 bg-amber-50 px-2 py-1 text-[10px] font-bold text-amber-800">
+                    <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+                    {item.cost}
                   </span>
 
+
                   {item.unlocked ? (
-                    <span className="inline-flex items-center gap-1 text-xs font-black text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-xl shadow-xs">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" /> ¡En Casillero!
+
+                    <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-100 px-2 py-1 text-[10px] font-bold text-emerald-700">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      Coleccionado
                     </span>
+
                   ) : (
+
                     <button
                       disabled={loadingId === item.id || stars < item.cost}
                       onClick={() => comprarItem(item)}
-                      className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-xs rounded-xl shadow-md transition-all transform hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-white/20"
+                      className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-[10px] font-extrabold text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                     >
+
                       {loadingId === item.id ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin" /> Canjeando...
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          Canjeando
                         </>
                       ) : (
-                        <>✨ ¡Comprar!</>
+                        <>
+                          Comprar
+                        </>
                       )}
+
                     </button>
+
                   )}
+
                 </div>
+
               </div>
+
             </div>
+
           ))}
+
         </div>
-      </div>
+
+      </section>
 
     </div>
   );

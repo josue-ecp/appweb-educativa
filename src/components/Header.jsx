@@ -1,5 +1,12 @@
 import React from 'react';
-import { Sparkles, Flame, UserCheck, ShieldCheck, Star, LogOut, Trees, Leaf, Clock } from 'lucide-react';
+import {
+  Flame,
+  ShieldCheck,
+  Star,
+  LogOut,
+  Leaf,
+  Clock
+} from 'lucide-react';
 
 export default function Header({ usuario, onLogout, tiempoRestante }) {
   const datosUsuario = usuario || {
@@ -10,7 +17,7 @@ export default function Header({ usuario, onLogout, tiempoRestante }) {
     avatar: 'fox'
   };
 
-  // Diccionario de emojis para los avatares disponibles
+  // Diccionario de avatares
   const avataresMap = {
     fox: '🦊',
     panda: '🐼',
@@ -18,100 +25,152 @@ export default function Header({ usuario, onLogout, tiempoRestante }) {
     dragon: '🐲'
   };
 
-  // Obtenemos el emoji correspondiente o un zorro por defecto
   const emojiAvatar = avataresMap[datosUsuario.avatar] || '🦊';
 
   return (
-    <header className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 text-white p-5 md:p-6 rounded-b-[2.5rem] shadow-xl relative overflow-hidden">
-      {/* Círculos decorativos de fondo con efectos de luz natural */}
-      <div className="absolute -right-10 -top-10 w-32 h-32 bg-white/15 rounded-full blur-2xl pointer-events-none"></div>
-      <div className="absolute left-10 -bottom-10 w-28 h-28 bg-amber-400/20 rounded-full blur-2xl pointer-events-none"></div>
+    <header className="relative overflow-hidden bg-gradient-to-br from-emerald-700 via-teal-700 to-cyan-800 text-white shadow-lg">
+      
+      {/* Decoración de fondo */}
+      <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/5 blur-3xl pointer-events-none" />
+      <div className="absolute -left-20 -bottom-24 h-64 w-64 rounded-full bg-emerald-300/10 blur-3xl pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
-        
-        {/* Perfil del Usuario con Avatar Dinámico */}
-        <div className="flex items-center justify-between w-full md:w-auto gap-3">
-          <div className="flex items-center gap-3.5">
-            <div className="w-14 h-14 bg-gradient-to-br from-amber-300 to-emerald-400 rounded-2xl flex items-center justify-center text-3xl shadow-lg border-2 border-white/50 transform -rotate-2 hover:rotate-0 transition-transform select-none">
-              {emojiAvatar}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
+
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+
+          {/* =========================
+              PERFIL
+          ========================== */}
+          <div className="flex min-w-0 items-center justify-between gap-3">
+
+            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+
+              {/* Avatar */}
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/30 bg-white/15 text-3xl shadow-md backdrop-blur-sm sm:h-16 sm:w-16 sm:text-4xl">
+                {emojiAvatar}
+              </div>
+
+              {/* Información */}
+              <div className="min-w-0">
+
+                <div className="flex min-w-0 items-center gap-2">
+                  <h1 className="truncate text-lg font-extrabold tracking-tight sm:text-xl lg:text-2xl">
+                    ¡Hola, {datosUsuario.nombre}!
+                  </h1>
+
+                  <span className="hidden shrink-0 items-center gap-1 rounded-full border border-amber-200/30 bg-amber-300 px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wider text-amber-950 sm:flex">
+                    <Leaf className="h-3 w-3" />
+                    Activo
+                  </span>
+                </div>
+
+                <div className="mt-1.5 flex items-center gap-1.5 text-emerald-100">
+                  <ShieldCheck className="h-4 w-4 shrink-0 text-amber-300" />
+
+                  <p className="text-xs font-semibold tracking-wide sm:text-sm">
+                    Explorador
+                    <span className="mx-1 text-white/40">•</span>
+                    Nivel {datosUsuario.nivel}
+                  </p>
+                </div>
+
+              </div>
             </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl md:text-2xl font-black tracking-wide drop-shadow-sm">¡Hola, {datosUsuario.nombre}!</h1>
-                <span className="bg-amber-300 text-amber-950 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
-                  <Leaf className="w-2.5 h-2.5" /> Activo
+
+            {/* Logout móvil */}
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                title="Cerrar sesión"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white shadow-sm backdrop-blur-sm transition-all hover:bg-rose-500 hover:border-rose-400 active:scale-95 md:hidden"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
+            )}
+
+          </div>
+
+
+          {/* =========================
+              ESTADÍSTICAS
+          ========================== */}
+          <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 lg:flex lg:w-auto lg:items-center">
+
+            {/* Tiempo */}
+            {tiempoRestante && (
+              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-3 py-2.5 backdrop-blur-sm transition-all hover:bg-white/15 sm:px-4">
+
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-400/15">
+                  <Clock className="h-4 w-4 text-amber-300" />
+                </div>
+
+                <div className="min-w-0">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-white/60">
+                    Tiempo
+                  </p>
+
+                  <span className="block truncate text-sm font-extrabold tracking-wide text-white sm:text-base">
+                    {tiempoRestante}
+                  </span>
+                </div>
+
+              </div>
+            )}
+
+
+            {/* Estrellas */}
+            <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-3 py-2.5 backdrop-blur-sm transition-all hover:bg-white/15 sm:px-4">
+
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-400/15">
+                <Star className="h-4 w-4 fill-amber-300 text-amber-300" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-[9px] font-bold uppercase tracking-wider text-white/60">
+                  Estrellas
+                </p>
+
+                <span className="block text-base font-extrabold tracking-wide text-white sm:text-lg">
+                  {datosUsuario.estrellas}
                 </span>
               </div>
-              
-              {/* Barra de Rango / Nivel */}
-              <div className="flex items-center gap-2">
-                <p className="text-xs text-emerald-100 font-bold uppercase tracking-wider flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-200" /> Explorador Nivel {datosUsuario.nivel}
+
+            </div>
+
+
+            {/* Racha */}
+            <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-3 py-2.5 backdrop-blur-sm transition-all hover:bg-white/15 sm:px-4">
+
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-orange-400/15">
+                <Flame className="h-4 w-4 fill-orange-300 text-orange-300" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-[9px] font-bold uppercase tracking-wider text-white/60">
+                  Racha
                 </p>
+
+                <span className="block truncate text-base font-extrabold tracking-wide text-white sm:text-lg">
+                  {datosUsuario.dias_racha} días
+                </span>
               </div>
+
             </div>
+
+
+            {/* Logout PC */}
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                title="Cerrar sesión"
+                className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white shadow-sm backdrop-blur-sm transition-all hover:border-rose-400 hover:bg-rose-500 active:scale-95 lg:flex"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
+            )}
+
           </div>
 
-          {/* Botón de Salir para móviles */}
-          {onLogout && (
-            <button
-              onClick={onLogout}
-              title="Cerrar Sesión"
-              className="md:hidden p-2.5 bg-white/15 hover:bg-rose-500/80 rounded-2xl border border-white/20 transition-all text-white shadow-sm flex items-center justify-center cursor-pointer"
-            >
-              <LogOut className="w-5 h-5" />
-            </button>
-          )}
-        </div>
-
-        {/* Marcadores de Temporizador, Estrellas, Rachas y Botón de Salir (PC) */}
-        <div className="flex items-center gap-3 w-full md:w-auto justify-end flex-wrap">
-          
-          {/* ⏱️ TEMPORIZADOR VISIBLE EN TIEMPO REAL */}
-          {tiempoRestante && (
-            <div className="bg-amber-500/20 backdrop-blur-md px-4 py-2 rounded-2xl flex items-center gap-2 border border-amber-400/30 shadow-inner transform hover:scale-105 transition-transform font-mono text-amber-100">
-              <div className="w-7 h-7 rounded-xl bg-amber-400/20 flex items-center justify-center">
-                <Clock className="w-4 h-4 text-amber-300 animate-pulse" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-amber-200 uppercase tracking-wide leading-none">Tiempo</p>
-                <span className="font-black text-sm md:text-base tracking-wide text-white">{tiempoRestante}</span>
-              </div>
-            </div>
-          )}
-
-          {/* Estrellas */}
-          <div className="bg-white/15 backdrop-blur-md px-4 py-2 rounded-2xl flex items-center gap-2 border border-white/25 shadow-inner transform hover:scale-105 transition-transform">
-            <div className="w-7 h-7 rounded-xl bg-amber-400/20 flex items-center justify-center">
-              <Star className="w-4 h-4 text-amber-300 fill-amber-300 animate-pulse" />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-emerald-100 uppercase tracking-wide leading-none">Estrellas</p>
-              <span className="font-black text-base md:text-lg tracking-wide text-white">{datosUsuario.estrellas}</span>
-            </div>
-          </div>
-
-          {/* Rachas */}
-          <div className="bg-amber-500/20 backdrop-blur-md px-4 py-2 rounded-2xl flex items-center gap-2 border border-amber-400/30 shadow-inner transform hover:scale-105 transition-transform">
-            <div className="w-7 h-7 rounded-xl bg-orange-500/20 flex items-center justify-center">
-              <Flame className="w-4 h-4 text-amber-300 fill-amber-300 animate-bounce" />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-amber-200 uppercase tracking-wide leading-none">Racha</p>
-              <span className="font-black text-base md:text-lg tracking-wide text-amber-100">{datosUsuario.dias_racha} días</span>
-            </div>
-          </div>
-
-          {/* Botón de Cerrar Sesión para PC */}
-          {onLogout && (
-            <button
-              onClick={onLogout}
-              title="Cerrar Sesión"
-              className="hidden md:flex p-3 bg-white/15 hover:bg-rose-600 rounded-2xl border border-white/20 transition-all text-white shadow-md items-center justify-center group cursor-pointer"
-            >
-              <LogOut className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-            </button>
-          )}
         </div>
 
       </div>
