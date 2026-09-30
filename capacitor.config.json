@@ -1,0 +1,9 @@
+{
+  "appId": "com.aventurilandia.app",
+  "appName": "appweb-educativa",
+  "webDir": "dist",
+  "server": {
+    "url": "https://appweb-educativa.vercel.app",
+    "cleartext": true
+  }
+}
